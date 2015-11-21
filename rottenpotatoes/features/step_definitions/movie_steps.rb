@@ -13,7 +13,11 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  fail "Unimplemented"
+  tr_items = all('tr')
+  tr_first = page.first('tr', {:text => e1.gsub(/"/, '')})
+  expect(tr_first.first('td')).to have_content(e1)
+  tr_second = tr_items[tr_items.index(tr_first) + 1]
+  expect(tr_second.first('td')).to have_content(e2)
 end
 
 # Make it easier to express checking or unchecking several boxes at once
